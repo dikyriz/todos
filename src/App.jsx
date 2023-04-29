@@ -4,7 +4,6 @@ import "./App.css";
 function App() {
   const [todo, setTodo] = useState([]);
   const inputRef = useRef();
-  // const checbox = useRef();
 
   function onClickHandler() {
     const newTodo = inputRef.current.value;
@@ -15,55 +14,53 @@ function App() {
   function handleToggleCompleted(index) {
     setTodo((prevTodo) => {
       const updateTodo = [...prevTodo];
-      // console.log("belum di rubah");
-      // console.log(updateTodo);
-      // console.log(updateTodo[index].isComplete);
-      // if (checbox.current.checked) {
-      //   updateTodo[index].isComplete = true;
-      // } else {
-      //   updateTodo[index].isComplete = false;
-      // }
-
-      // console.log(checbox.current.length);
-
-      if (updateTodo[index].isComplete === true)
-        updateTodo[index].isComplete = false;
-      updateTodo[index].isComplete = true;
-      // console.log("setelah rubah");
-      console.log(updateTodo);
-      // console.log(updateTodo[index].isComplete);
-      // console.log(updateTodo[index].isComplete);
+      updateTodo[index] = {
+        ...updateTodo[index],
+        isComplete: !updateTodo[index].isComplete,
+      };
       return updateTodo;
     });
-
-    console.log(index);
   }
 
   return (
     <>
       <div className="flex flex-col h-screen justify-center items-center ">
-        <h1 className="text-red-400 text-4xl">#todo</h1>
-        <div>
-          <input type="text" placeholder="add details" ref={inputRef} />
-          <button onClick={onClickHandler}>Add</button>
-        </div>
-        <div>
-          <ul>
-            {todo.map((data, index) => {
-              return (
-                <li
-                  key={index}
-                  className={`${data.isComplete ? "line-through" : ""}`}
-                >
-                  <input
-                    type="checkbox"
-                    onChange={() => handleToggleCompleted(index)}
-                  />
-                  {data.text}
-                </li>
-              );
-            })}
-          </ul>
+        <h1 className="text-slate-800 text-4xl font-bold">#todo</h1>
+        <div className="mt-6">
+          <input
+            type="text"
+            placeholder="add details"
+            ref={inputRef}
+            className="w-96 border border-gray-400 py-3 pl-2 rounded-xl"
+          />
+          <button
+            className="bg-blue-500 text-white py-3 w-28 rounded-xl ml-5"
+            onClick={onClickHandler}
+          >
+            Add
+          </button>
+          <div className="mt-6">
+            <ul>
+              {todo.map((data, index) => {
+                return (
+                  <li
+                    key={index}
+                    className={`${
+                      data.isComplete ? "line-through" : ""
+                    } font-semibold mt-2 flex items-center`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={data.isComplete}
+                      onChange={() => handleToggleCompleted(index)}
+                      className="mr-2 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded cursor-pointer"
+                    />
+                    {data.text}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
       </div>
     </>
